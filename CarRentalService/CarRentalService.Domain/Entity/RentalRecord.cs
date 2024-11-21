@@ -21,11 +21,11 @@ public class RentalRecord
     /// </summary>
     public required int RentalPointId { get; set; }
     /// <summary>
-    /// Время начала аренды
+    /// время начала аренды
     /// </summary>
     public required DateTime RentalStart { get; set; }
     /// <summary>
-    /// Время окончания аренды
+    /// время окончания аренды
     /// </summary>
     public DateTime? RentalEnd { get; set; }
     /// <summary>
@@ -33,7 +33,7 @@ public class RentalRecord
     /// </summary>
     public int? ReturnPointId { get; set; }
     /// <summary>
-    /// Срок аренды в днях
+    /// срок аренды в днях
     /// </summary>
     public required int RentalDurationDays { get; set; } 
 }

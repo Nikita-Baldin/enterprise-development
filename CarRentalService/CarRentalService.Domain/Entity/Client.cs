@@ -5,7 +5,7 @@
 public class Client
 {
     /// <summary>
-    /// Идентификатор клиента
+    /// идентификатор клиента
     /// </summary>
     public required int Id { get; set; }
     /// <summary>
