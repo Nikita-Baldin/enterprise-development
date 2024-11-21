@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalService.Domain", "CarRentalService.Domain\CarRentalService.Domain.csproj", "{CBF3ACDF-77F7-44D2-8341-F4ACC80D251F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalService.Tests", "CarRentalService.Tests\CarRentalService.Tests.csproj", "{A092B19F-6AAE-4EB1-9FAD-F411094771F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CBF3ACDF-77F7-44D2-8341-F4ACC80D251F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBF3ACDF-77F7-44D2-8341-F4ACC80D251F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBF3ACDF-77F7-44D2-8341-F4ACC80D251F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBF3ACDF-77F7-44D2-8341-F4ACC80D251F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A092B19F-6AAE-4EB1-9FAD-F411094771F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A092B19F-6AAE-4EB1-9FAD-F411094771F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A092B19F-6AAE-4EB1-9FAD-F411094771F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A092B19F-6AAE-4EB1-9FAD-F411094771F5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A0E7E642-049C-43BB-AC06-08F009C6A4E6}
+	EndGlobalSection
+EndGlobal
