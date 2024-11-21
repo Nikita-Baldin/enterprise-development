@@ -141,5 +141,4 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
 
         Assert.Equal(expectedResult, result);
     }
-
 }
