@@ -7,7 +7,7 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
     private readonly CarRentalServiceFixture _fixture = carRentalServiceFixture;
 
     [Fact]
-    public void GetAllVehicles_ShouldReturnAllVehicles()
+    public void GetAllVehiclesShouldReturnAllVehicles()
     {
         var result = _fixture.Vehicles.Count;
 
@@ -15,9 +15,9 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
     }
 
     [Fact]
-    public void GetClientsByVehicleModel_ReturnsClientsSortedByFullName()
+    public void GetClientsByVehicleModelReturnsClientsSortedByFullName()
     {
-        string targetModel = "Тойота Королла";
+        var targetModel = "Тойота Королла";
 
         var expectedResult = new List<Client>
         {
@@ -36,7 +36,7 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
     }
 
     [Fact]
-    public void GetVehiclesCurrentlyRented_ReturnsActiveRentals()
+    public void GetVehiclesCurrentlyRentedReturnsActiveRentals()
     {
         var expectedResult = new List<Vehicle>
         {
@@ -54,7 +54,7 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
     }
 
     [Fact]
-    public void GetTop5MostRentedVehiclesByModel_ReturnsCorrectTopModels()
+    public void GetTop5MostRentedVehiclesByModelReturnsCorrectTopModels()
     {
         var expectedResult = new[]
         {
@@ -84,7 +84,7 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
     }
 
     [Fact]
-    public void GetRentalCountForEachVehicle_ReturnsCorrectRentalCounts()
+    public void GetRentalCountForEachVehicleReturnsCorrectRentalCounts()
     {
         var expectedResult = new[]
         {
@@ -96,49 +96,49 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
         };
 
         var result = _fixture.RentalRecords
-          .GroupBy(record => record.VehicleId) 
-          .Join(_fixture.Vehicles, 
-              record => record.Key,  
-              vehicle => vehicle.Id, 
+          .GroupBy(record => record.VehicleId)
+          .Join(_fixture.Vehicles,
+              record => record.Key,
+              vehicle => vehicle.Id,
               (record, vehicle) => new
               {
-                  vehicle.Model,  
-                  RentalCount = record.Count()  
+                  vehicle.Model,
+                  RentalCount = record.Count()
               })
-          .OrderByDescending(vehicleInfo => vehicleInfo.RentalCount)  
+          .OrderByDescending(vehicleInfo => vehicleInfo.RentalCount)
           .ToList();
 
         Assert.Equal(expectedResult, result);
     }
 
     [Fact]
-    public void GetRentalPointsWithMaxRentals_ReturnsCorrectRentalPoints()
+    public void GetRentalPointsWithMaxRentalsReturnsCorrectRentalPoints()
     {
         var expectedResult = new[]
         {
             new { _fixture.RentalPoints[1].Name, RentalCount = 2 },
-            new { _fixture.RentalPoints[2].Name, RentalCount = 2 },
-            new { _fixture.RentalPoints[0].Name, RentalCount = 1 }
+            new { _fixture.RentalPoints[2].Name, RentalCount = 2 }
         };
-
-        var result = _fixture.RentalRecords
-         .GroupBy(record => record.RentalPointId)
-         .Select(group => new
-         {
-             RentalPointId = group.Key,  
-             RentalCount = group.Count()  
-         })
-         .OrderByDescending(rentalPoint => rentalPoint.RentalCount)  
-         .Join(_fixture.RentalPoints,  
-             rental => rental.RentalPointId,  
-             point => point.Id,
-             (rental, point) => new
-             {
-                 point.Name,
-                 rental.RentalCount
-             })
-         .ToList();
-
+        var groupedRentals = _fixture.RentalRecords
+            .GroupBy(record => record.RentalPointId)
+            .Select(group => new
+            {
+                RentalPointId = group.Key,
+                RentalCount = group.Count()
+            });
+        var maxRentalCount = groupedRentals.Max(rental => rental.RentalCount);
+        var result = groupedRentals
+            .Where(rental => rental.RentalCount == maxRentalCount)
+            .Join(
+                _fixture.RentalPoints,
+                rental => rental.RentalPointId,
+                point => point.Id,
+                (rental, point) => new
+                {
+                    point.Name,
+                    rental.RentalCount
+                })
+            .ToList();
         Assert.Equal(expectedResult, result);
     }
 }
