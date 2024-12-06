@@ -1,25 +1,22 @@
-﻿namespace CarRentalService.Domain.Entity;
+﻿namespace CarRentalService.Api.Dto;
+
 /// <summary>
-/// класс записи об арендах автомобиля
+/// DTO для создания записей об аренде автомобилей
 /// </summary>
-public class RentalRecord
+public class RentalRecordCreateDto
 {
-    /// <summary>
-    /// идентификатор записи аренды
-    /// </summary>
-    public required int Id { get; set; }
     /// <summary>
     /// ID автомобиля
     /// </summary>
-    public required Vehicle VehicleId { get; set; }
+    public required int VehicleId { get; set; }
     /// <summary>
     /// ID клиента
     /// </summary>
-    public required Client ClientId { get; set; }
+    public required int ClientId { get; set; }
     /// <summary>
     /// ID пункта проката
     /// </summary>
-    public required RentalPoint RentalPointId { get; set; }
+    public required int RentalPointId { get; set; }
     /// <summary>
     /// время начала аренды
     /// </summary>
@@ -35,5 +32,5 @@ public class RentalRecord
     /// <summary>
     /// срок аренды в днях
     /// </summary>
-    public required int RentalDurationDays { get; set; } 
+    public required int RentalDurationDays { get; set; }
 }

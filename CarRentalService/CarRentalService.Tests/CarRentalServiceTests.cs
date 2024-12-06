@@ -26,8 +26,8 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
         };
 
         var result = _fixture.RentalRecords
-            .Where(record => _fixture.Vehicles.Any(vehicle => vehicle.Id == record.VehicleId && vehicle.Model == targetModel))
-            .Select(record => _fixture.Clients.First(client => client.Id == record.ClientId))
+            .Where(record => _fixture.Vehicles.Any(vehicle => vehicle.Id == record.VehicleId.Id && vehicle.Model == targetModel))
+            .Select(record => _fixture.Clients.First(client => client.Id == record.ClientId.Id))
             .OrderBy(client => client.FullName)
             .Distinct()
             .ToList();
@@ -46,7 +46,7 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
 
         var result = _fixture.RentalRecords
             .Where(record => record.RentalEnd == null)
-            .Select(record => _fixture.Vehicles.First(vehicle => vehicle.Id == record.VehicleId))
+            .Select(record => _fixture.Vehicles.First(vehicle => vehicle.Id == record.VehicleId.Id))
             .Distinct()
             .ToList();
 
@@ -69,7 +69,7 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
           .GroupBy(record => record.VehicleId)
           .Join(_fixture.Vehicles,
               record => record.Key,
-              vehicle => vehicle.Id,
+              vehicle => vehicle,
               (record, vehicle) => new
               {
                   vehicle.Model,
@@ -99,7 +99,7 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
           .GroupBy(record => record.VehicleId)
           .Join(_fixture.Vehicles,
               record => record.Key,
-              vehicle => vehicle.Id,
+              vehicle => vehicle,
               (record, vehicle) => new
               {
                   vehicle.Model,
@@ -132,7 +132,7 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
             .Join(
                 _fixture.RentalPoints,
                 rental => rental.RentalPointId,
-                point => point.Id,
+                point => point,
                 (rental, point) => new
                 {
                     point.Name,

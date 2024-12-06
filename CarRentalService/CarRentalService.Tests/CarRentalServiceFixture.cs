@@ -29,11 +29,16 @@ public class CarRentalServiceFixture
         new () { Id = 4, Model = "Ниссан Альтима", Color = "Серый" }
     ];
 
-    public List<RentalRecord> RentalRecords =
-    [
-        new ()
+    public List<RentalRecord> RentalRecords;
+    public CarRentalServiceFixture()
+    {
+
+
+        RentalRecords =
+        [
+            new ()
         {
-            Id = 0, VehicleId = 0, ClientId = 0, RentalPointId = 0,
+            Id = 0, VehicleId = Vehicles[0], ClientId = Clients[0], RentalPointId = RentalPoints[0],
             RentalStart = new DateTime(2024, 11, 1, 10, 0, 0),
             RentalDurationDays = 5,
             RentalEnd = new DateTime(2024, 11, 6, 9, 0, 0),
@@ -41,7 +46,7 @@ public class CarRentalServiceFixture
         },
         new ()
         {
-            Id = 1, VehicleId = 1, ClientId = 1, RentalPointId = 1,
+            Id = 1, VehicleId = Vehicles[1], ClientId = Clients[1], RentalPointId = RentalPoints[1],
             RentalStart = new DateTime(2024, 11, 3, 12, 0, 0),
             RentalDurationDays = 3,
             RentalEnd = new DateTime(2024, 11, 6, 15, 0, 0),
@@ -49,7 +54,7 @@ public class CarRentalServiceFixture
         },
         new ()
         {
-            Id = 2, VehicleId = 2, ClientId = 2, RentalPointId = 2,
+            Id = 2, VehicleId = Vehicles[2], ClientId = Clients[2], RentalPointId = RentalPoints[2],
             RentalStart = new DateTime(2024, 11, 5, 14, 0, 0),
             RentalDurationDays = 7,
             RentalEnd = null,
@@ -57,7 +62,7 @@ public class CarRentalServiceFixture
         },
         new ()
         {
-            Id = 3, VehicleId = 3, ClientId = 3, RentalPointId = 1,
+            Id = 3, VehicleId = Vehicles[3], ClientId = Clients[3], RentalPointId = RentalPoints[1],
             RentalStart = new DateTime(2024, 10, 20, 9, 0, 0),
             RentalDurationDays = 2,
             RentalEnd = new DateTime(2024, 10, 22, 11, 0, 0),
@@ -65,11 +70,12 @@ public class CarRentalServiceFixture
         },
         new ()
         {
-            Id = 4, VehicleId = 4, ClientId = 4, RentalPointId = 2,
+            Id = 4, VehicleId = Vehicles[4], ClientId = Clients[4], RentalPointId = RentalPoints[2],
             RentalStart = new DateTime(2024, 11, 10, 8, 0, 0),
             RentalDurationDays = 4,
             RentalEnd = null,
             ReturnPointId = null
         }
-    ];
+        ];
+    }
 }

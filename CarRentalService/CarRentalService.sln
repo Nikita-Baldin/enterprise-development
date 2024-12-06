@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalService.Domain", "CarRentalService.Domain\CarRentalService.Domain.csproj", "{CBF3ACDF-77F7-44D2-8341-F4ACC80D251F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalService.Domain", "CarRentalService.Domain\CarRentalService.Domain.csproj", "{CBF3ACDF-77F7-44D2-8341-F4ACC80D251F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalService.Tests", "CarRentalService.Tests\CarRentalService.Tests.csproj", "{A092B19F-6AAE-4EB1-9FAD-F411094771F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalService.Tests", "CarRentalService.Tests\CarRentalService.Tests.csproj", "{A092B19F-6AAE-4EB1-9FAD-F411094771F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalService.Api", "CarRentalService.Api\CarRentalService.Api.csproj", "{53054E02-985B-4484-8637-010D7DD36844}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A092B19F-6AAE-4EB1-9FAD-F411094771F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A092B19F-6AAE-4EB1-9FAD-F411094771F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A092B19F-6AAE-4EB1-9FAD-F411094771F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53054E02-985B-4484-8637-010D7DD36844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53054E02-985B-4484-8637-010D7DD36844}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53054E02-985B-4484-8637-010D7DD36844}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53054E02-985B-4484-8637-010D7DD36844}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
