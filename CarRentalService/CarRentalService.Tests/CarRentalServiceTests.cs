@@ -26,8 +26,8 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
         };
 
         var result = _fixture.RentalRecords
-            .Where(record => _fixture.Vehicles.Any(vehicle => vehicle.Id == record.VehicleId.Id && vehicle.Model == targetModel))
-            .Select(record => _fixture.Clients.First(client => client.Id == record.ClientId.Id))
+            .Where(record => _fixture.Vehicles.Any(vehicle => vehicle.Id == record.Vehicle.Id && vehicle.Model == targetModel))
+            .Select(record => _fixture.Clients.First(client => client.Id == record.Client.Id))
             .OrderBy(client => client.FullName)
             .Distinct()
             .ToList();
@@ -46,7 +46,7 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
 
         var result = _fixture.RentalRecords
             .Where(record => record.RentalEnd == null)
-            .Select(record => _fixture.Vehicles.First(vehicle => vehicle.Id == record.VehicleId.Id))
+            .Select(record => _fixture.Vehicles.First(vehicle => vehicle.Id == record.Vehicle.Id))
             .Distinct()
             .ToList();
 
@@ -66,7 +66,7 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
         };
 
         var result = _fixture.RentalRecords
-          .GroupBy(record => record.VehicleId)
+          .GroupBy(record => record.Vehicle)
           .Join(_fixture.Vehicles,
               record => record.Key,
               vehicle => vehicle,
@@ -96,7 +96,7 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
         };
 
         var result = _fixture.RentalRecords
-          .GroupBy(record => record.VehicleId)
+          .GroupBy(record => record.Vehicle)
           .Join(_fixture.Vehicles,
               record => record.Key,
               vehicle => vehicle,
@@ -120,7 +120,7 @@ public class CarRentalServiceTests(CarRentalServiceFixture carRentalServiceFixtu
             new { _fixture.RentalPoints[2].Name, RentalCount = 2 }
         };
         var groupedRentals = _fixture.RentalRecords
-            .GroupBy(record => record.RentalPointId)
+            .GroupBy(record => record.RentalPoint)
             .Select(group => new
             {
                 RentalPointId = group.Key,

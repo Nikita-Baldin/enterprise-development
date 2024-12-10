@@ -15,8 +15,8 @@ public class RequestService(VehicleService vehicleService, RentalRecordService r
         var vehicles = vehicleService.GetAll();
         var clients = clientService.GetAll();
         return recordService.GetAll()
-            .Where(record => vehicles.Any(vehicle => vehicle.Id == record.VehicleId.Id && vehicle.Model == targetModel))
-            .Select(record => clients.First(client => client.Id == record.ClientId.Id))
+            .Where(record => vehicles.Any(vehicle => vehicle.Id == record.Vehicle.Id && vehicle.Model == targetModel))
+            .Select(record => clients.First(client => client.Id == record.Client.Id))
             .OrderBy(client => client.FullName)
             .Distinct()
             .ToList();
@@ -27,7 +27,7 @@ public class RequestService(VehicleService vehicleService, RentalRecordService r
         var records = recordService.GetAll();
         var vehicles = vehicleService.GetAll();
         return records.Where(record => record.RentalEnd == null)
-            .Select(record => vehicles.First(vehicle => vehicle.Id == record.VehicleId.Id))
+            .Select(record => vehicles.First(vehicle => vehicle.Id == record.Vehicle.Id))
             .Distinct()
             .ToList();
     }
@@ -36,7 +36,7 @@ public class RequestService(VehicleService vehicleService, RentalRecordService r
     {
         var records = recordService.GetAll();
         var vehicles = vehicleService.GetAll();
-        return records.GroupBy(record => record.VehicleId)
+        return records.GroupBy(record => record.Vehicle)
               .Join(vehicles,
                   record => record.Key,
                   vehicle => vehicle,
@@ -54,7 +54,7 @@ public class RequestService(VehicleService vehicleService, RentalRecordService r
     {
         var records = recordService.GetAll();
         var vehicles = vehicleService.GetAll();
-        return [.. records.GroupBy(record => record.VehicleId)
+        return [.. records.GroupBy(record => record.Vehicle)
               .Join(vehicles,
                   record => record.Key,
                   vehicle => vehicle,
@@ -71,7 +71,7 @@ public class RequestService(VehicleService vehicleService, RentalRecordService r
         var records = recordService.GetAll();
         var points = pointService.GetAll();
         var groupedRentals = records
-            .GroupBy(record => record.RentalPointId)
+            .GroupBy(record => record.RentalPoint)
             .Select(group => new
             {
                 RentalPointId = group.Key,

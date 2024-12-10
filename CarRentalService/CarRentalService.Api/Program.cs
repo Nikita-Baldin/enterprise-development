@@ -1,4 +1,6 @@
+using CarRentalService.Api.Dto;
 using CarRentalService.Api.Services;
+using CarRentalService.Domain.Entity;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,9 +15,15 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddSingleton<ClientService>();
 builder.Services.AddSingleton<RentalPointService>();
-builder.Services.AddSingleton<RentalRecordService>();
 builder.Services.AddSingleton<VehicleService>();
+builder.Services.AddSingleton<RentalRecordService>();
+
+builder.Services.AddSingleton<IEntityService<ClientCreateDto, Client>, ClientService>();
+builder.Services.AddSingleton<IEntityService<RentalPointCreateDto, RentalPoint>, RentalPointService>();
+builder.Services.AddSingleton<IEntityService<RentalRecordCreateDto, RentalRecord>, RentalRecordService>();
+builder.Services.AddSingleton<IEntityService<VehicleCreateDto, Vehicle>, VehicleService>();
 builder.Services.AddSingleton<RequestService>();
+
 
 builder.Services.AddControllers();
 

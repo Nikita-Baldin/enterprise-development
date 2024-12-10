@@ -11,15 +11,15 @@ public class RentalRecord
     /// <summary>
     /// ID автомобиля
     /// </summary>
-    public required Vehicle VehicleId { get; set; }
+    public required Vehicle Vehicle { get; set; }
     /// <summary>
-    /// ID клиента
+    ///  клиент
     /// </summary>
-    public required Client ClientId { get; set; }
+    public required Client Client { get; set; }
     /// <summary>
-    /// ID пункта проката
+    /// пункт проката
     /// </summary>
-    public required RentalPoint RentalPointId { get; set; }
+    public required RentalPoint RentalPoint { get; set; }
     /// <summary>
     /// время начала аренды
     /// </summary>
@@ -31,7 +31,7 @@ public class RentalRecord
     /// <summary>
     /// ID пункта возврата
     /// </summary>
-    public int? ReturnPointId { get; set; }
+    public RentalPoint? ReturnPoint { get; set; }
     /// <summary>
     /// срок аренды в днях
     /// </summary>

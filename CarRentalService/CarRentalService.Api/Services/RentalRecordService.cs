@@ -17,18 +17,21 @@ public class RentalRecordService(ClientService clientService, RentalPointService
         var client = clientService.GetById(dto.ClientId);
         var rentalPoint = rentalPointService.GetById(dto.RentalPointId);
         var vehicle = vehicleService.GetById(dto.VehicleId);
+        var returnPoint = rentalPointService.GetById(dto.ReturnPointId ?? 0);
 
-        if (client == null || vehicle == null || rentalPoint == null )
+        if (client == null || vehicle == null || rentalPoint == null || returnPoint == null)
         {
             return null;
         }
         var newRentalRecord = new RentalRecord
         {
             Id = _rentalRecordId++,
-            VehicleId = vehicle,
-            ClientId = client,
-            RentalPointId = rentalPoint,
+            Vehicle = vehicle,
+            Client = client,
+            RentalPoint = rentalPoint,
             RentalStart = dto.RentalStart,
+            RentalEnd = dto.RentalEnd,
+            ReturnPoint = returnPoint,
             RentalDurationDays = dto.RentalDurationDays,
         };
         _rentalRecords.Add(newRentalRecord);
@@ -48,14 +51,21 @@ public class RentalRecordService(ClientService clientService, RentalPointService
     public bool Update(int id, RentalRecordCreateDto updateRentalRecord)
     {
         var rentalRecord = GetById(id);
-        var vehicleId = GetById(updateRentalRecord.VehicleId);
-        var clientId = GetById(updateRentalRecord.ClientId);
-        var rentalPointId = GetById(updateRentalRecord.RentalPointId);
-        if (rentalRecord == null || vehicleId == null || clientId == null || rentalPointId == null)
+        var vehicleId = vehicleService.GetById(updateRentalRecord.VehicleId);
+        var clientId = clientService.GetById(updateRentalRecord.ClientId);
+        var rentalPointId = rentalPointService.GetById(updateRentalRecord.RentalPointId);
+        var returnPoint = rentalPointService.GetById(updateRentalRecord.ReturnPointId ?? 0);
+
+        if (rentalRecord == null || vehicleId == null || clientId == null || rentalPointId == null || returnPoint == null)
         {
             return false;
         }
+        rentalRecord.Vehicle = vehicleId;
+        rentalRecord.Client = clientId;
+        rentalRecord.RentalPoint = rentalPointId;
         rentalRecord.RentalStart = updateRentalRecord.RentalStart;
+        rentalRecord.RentalEnd = updateRentalRecord.RentalEnd;
+        rentalRecord.ReturnPoint = returnPoint;
         rentalRecord.RentalDurationDays = updateRentalRecord.RentalDurationDays;
         return true;
     }

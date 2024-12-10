@@ -38,43 +38,43 @@ public class CarRentalServiceFixture
         [
             new ()
         {
-            Id = 0, VehicleId = Vehicles[0], ClientId = Clients[0], RentalPointId = RentalPoints[0],
+            Id = 0, Vehicle = Vehicles[0], Client = Clients[0], RentalPoint = RentalPoints[0],
             RentalStart = new DateTime(2024, 11, 1, 10, 0, 0),
             RentalDurationDays = 5,
             RentalEnd = new DateTime(2024, 11, 6, 9, 0, 0),
-            ReturnPointId = 2
+            ReturnPoint = null
         },
         new ()
         {
-            Id = 1, VehicleId = Vehicles[1], ClientId = Clients[1], RentalPointId = RentalPoints[1],
+            Id = 1, Vehicle = Vehicles[1], Client = Clients[1], RentalPoint = RentalPoints[1],
             RentalStart = new DateTime(2024, 11, 3, 12, 0, 0),
             RentalDurationDays = 3,
             RentalEnd = new DateTime(2024, 11, 6, 15, 0, 0),
-            ReturnPointId = 1
+            ReturnPoint = null
         },
         new ()
         {
-            Id = 2, VehicleId = Vehicles[2], ClientId = Clients[2], RentalPointId = RentalPoints[2],
+            Id = 2, Vehicle = Vehicles[2], Client = Clients[2], RentalPoint = RentalPoints[2],
             RentalStart = new DateTime(2024, 11, 5, 14, 0, 0),
             RentalDurationDays = 7,
             RentalEnd = null,
-            ReturnPointId = null
+            ReturnPoint = null
         },
         new ()
         {
-            Id = 3, VehicleId = Vehicles[3], ClientId = Clients[3], RentalPointId = RentalPoints[1],
+            Id = 3, Vehicle = Vehicles[3], Client = Clients[3], RentalPoint = RentalPoints[1],
             RentalStart = new DateTime(2024, 10, 20, 9, 0, 0),
             RentalDurationDays = 2,
             RentalEnd = new DateTime(2024, 10, 22, 11, 0, 0),
-            ReturnPointId = 1
+            ReturnPoint = null
         },
         new ()
         {
-            Id = 4, VehicleId = Vehicles[4], ClientId = Clients[4], RentalPointId = RentalPoints[2],
+            Id = 4, Vehicle = Vehicles[4], Client = Clients[4], RentalPoint = RentalPoints[2],
             RentalStart = new DateTime(2024, 11, 10, 8, 0, 0),
             RentalDurationDays = 4,
             RentalEnd = null,
-            ReturnPointId = null
+            ReturnPoint = null
         }
         ];
     }
