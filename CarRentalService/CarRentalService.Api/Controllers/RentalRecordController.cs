@@ -67,9 +67,9 @@ public class RentalRecordController(IEntityService<RentalRecordCreateDto, Rental
     /// <response code="200">Данные успешно обновлены</response>
     /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpPut("{id}")]
-    public IActionResult Put(int id, RentalRecordCreateDto rentalRecord)
+    public async Task<IActionResult> Put(int id, RentalRecordCreateDto rentalRecord)
     {
-        var result = rentalRecordService.Update(id, rentalRecord);
+        var result = await rentalRecordService.Update(id, rentalRecord);
         if (!result)
         {
             return NotFound();
@@ -85,9 +85,9 @@ public class RentalRecordController(IEntityService<RentalRecordCreateDto, Rental
     /// <response code="200">Данные успешно обновлены</response>
     /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        var result = rentalRecordService.Delete(id);
+        var result = await rentalRecordService.Delete(id);
         if (!result)
         {
             return NotFound();

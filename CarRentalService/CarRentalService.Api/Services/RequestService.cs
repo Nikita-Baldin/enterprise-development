@@ -1,24 +1,28 @@
 ﻿using CarRentalService.Api.Dto;
+using CarRentalService.Domain.Context;
 using CarRentalService.Domain.Entity;
+using Microsoft.EntityFrameworkCore;
 namespace CarRentalService.Api.Services;
 
 public class RequestService(
     IEntityService<ClientCreateDto, Client> clientService,
     IEntityService<RentalPointCreateDto, RentalPoint> pointService,
     IEntityService<VehicleCreateDto, Vehicle> vehicleService,
-    IEntityService<RentalRecordCreateDto, RentalRecord> recordService)
+    IEntityService<RentalRecordCreateDto, RentalRecord> recordService,
+    CarRentalServiceDbContext context)
 {
-    public IEnumerable<Vehicle> GetAllVehicles()
+    public async Task<IEnumerable<Vehicle>> GetAllVehicles()
     {
-        return vehicleService.GetAll();
+        return await context.Vehicles.ToListAsync();
     }
     
 
-    public IEnumerable<Client> GetClientsByVehicleModel (string targetModel)
+    public async Task<IEnumerable<Client>> GetClientsByVehicleModel (string targetModel)
     {
-        var vehicles = vehicleService.GetAll();
-        var clients = clientService.GetAll();
-        return recordService.GetAll()
+        var vehicles = await vehicleService.GetAll();
+        var clients = await clientService.GetAll();
+        var records = await recordService.GetAll();
+        return records
             .Where(record => vehicles.Any(vehicle => vehicle.Id == record.Vehicle.Id && vehicle.Model == targetModel))
             .Select(record => clients.First(client => client.Id == record.Client.Id))
             .OrderBy(client => client.FullName)
@@ -26,20 +30,21 @@ public class RequestService(
             .ToList();
     }
 
-    public IEnumerable<Vehicle> GetVehiclesCurrentlyRented ()
+    public async Task<IEnumerable<Vehicle>> GetVehiclesCurrentlyRented ()
     {
-        var records = recordService.GetAll();
-        var vehicles = vehicleService.GetAll();
-        return records.Where(record => record.RentalEnd == null)
+        var records = await recordService.GetAll();
+        var vehicles = await vehicleService.GetAll();
+        return records
+            .Where(record => record.RentalEnd == null)
             .Select(record => vehicles.First(vehicle => vehicle.Id == record.Vehicle.Id))
             .Distinct()
             .ToList();
     }
 
-    public IEnumerable<RecordsInfoDto> GetTop5MostRentedVehicles ()
+    public async Task<IEnumerable<RecordsInfoDto>> GetTop5MostRentedVehicles ()
     {
-        var records = recordService.GetAll();
-        var vehicles = vehicleService.GetAll();
+        var records = await recordService.GetAll();
+        var vehicles = await vehicleService.GetAll();
         return records.GroupBy(record => record.Vehicle)
               .Join(vehicles,
                   record => record.Key,
@@ -54,10 +59,10 @@ public class RequestService(
               .ToList();
     }
 
-    public IEnumerable<RecordsInfoDto> GetRentalCount ()
+    public async Task<IEnumerable<RecordsInfoDto>> GetRentalCount ()
     {
-        var records = recordService.GetAll();
-        var vehicles = vehicleService.GetAll();
+        var records = await recordService.GetAll();
+        var vehicles = await vehicleService.GetAll();
         return [.. records.GroupBy(record => record.Vehicle)
               .Join(vehicles,
                   record => record.Key,
@@ -70,10 +75,10 @@ public class RequestService(
               .OrderByDescending(vehicleInfo => vehicleInfo.RentalCount)];
     }
 
-    public IEnumerable<PointsInfoDto> GetRentalPointsWithMaxRentals()
+    public async Task<IEnumerable<PointsInfoDto>> GetRentalPointsWithMaxRentals()
     {
-        var records = recordService.GetAll();
-        var points = pointService.GetAll();
+        var records = await recordService.GetAll();
+        var points = await pointService.GetAll();
         var groupedRentals = records
             .GroupBy(record => record.RentalPoint)
             .Select(group => new

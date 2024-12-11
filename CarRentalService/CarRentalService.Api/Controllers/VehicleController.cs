@@ -60,9 +60,9 @@ public class VehicleController(IEntityService<VehicleCreateDto, Vehicle> vehicle
     /// <response code="200">Данные успешно обновлены</response>
     /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpPut("{id}")]
-    public IActionResult Put(int id, VehicleCreateDto vehicle)
+    public async Task<IActionResult> Put(int id, VehicleCreateDto vehicle)
     {
-        var result = vehicleService.Update(id, vehicle);
+        var result = await vehicleService.Update(id, vehicle);
         if (!result)
         {
             return NotFound();
@@ -78,9 +78,9 @@ public class VehicleController(IEntityService<VehicleCreateDto, Vehicle> vehicle
     /// <response code="200">Данные успешно обновлены</response>
     /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        var result = vehicleService.Delete(id);
+        var result = await vehicleService.Delete(id);
         if (!result)
         {
             return NotFound();

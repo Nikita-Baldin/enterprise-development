@@ -1,4 +1,7 @@
-﻿namespace CarRentalService.Domain.Entity;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CarRentalService.Domain.Entity;
 
 /// <summary>
 /// класс транспортное средство
@@ -8,13 +11,18 @@ public class Vehicle
     /// <summary>
     /// уникальный номер автомобиля
     /// </summary>
-    public required int Id { get; set; }  
+    [Column("id")]
+    public required int Id { get; set; }
     /// <summary>
     /// модель автомобиля
     /// </summary>
-    public required string Model { get; set; }   
+    [Column("model")]
+    [Required]
+    public required string Model { get; set; }
     /// <summary>
     /// цвет автомобиля
     /// </summary>
+    [Column("color")]
+    [Required]
     public required string Color { get; set; }     
 }

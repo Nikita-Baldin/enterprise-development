@@ -2,9 +2,9 @@
 
 public interface IEntityService<TCreateDto, TReadDto>
 {
-    public List<TReadDto> GetAll();
-    public TReadDto? GetById(int id);
-    public TReadDto? Create(TCreateDto dto);
-    public bool Update(int id, TCreateDto dto);
-    public bool Delete(int id);
+    public Task<IEnumerable<TReadDto>> GetAll();
+    public Task<TReadDto?> GetById(int id);
+    public Task<TReadDto?> Create(TCreateDto dto);
+    public Task<bool> Update(int id, TCreateDto dto);
+    public Task<bool> Delete(int id);
 }

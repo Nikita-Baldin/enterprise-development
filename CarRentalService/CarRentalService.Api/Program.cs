@@ -1,6 +1,8 @@
 using CarRentalService.Api.Dto;
 using CarRentalService.Api.Services;
+using CarRentalService.Domain.Context;
 using CarRentalService.Domain.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,11 +15,15 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(xmlPath);
 });
 
-builder.Services.AddSingleton<IEntityService<ClientCreateDto, Client>, ClientService>();
-builder.Services.AddSingleton<IEntityService<RentalPointCreateDto, RentalPoint>, RentalPointService>();
-builder.Services.AddSingleton<IEntityService<RentalRecordCreateDto, RentalRecord>, RentalRecordService>();
-builder.Services.AddSingleton<IEntityService<VehicleCreateDto, Vehicle>, VehicleService>();
-builder.Services.AddSingleton<RequestService>();
+builder.Services.AddDbContext<CarRentalServiceDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddScoped<IEntityService<ClientCreateDto, Client>, ClientService>();
+builder.Services.AddScoped<IEntityService<RentalPointCreateDto, RentalPoint>, RentalPointService>();
+builder.Services.AddScoped<IEntityService<RentalRecordCreateDto, RentalRecord>, RentalRecordService>();
+builder.Services.AddScoped<IEntityService<VehicleCreateDto, Vehicle>, VehicleService>();
+builder.Services.AddScoped<RequestService>();
 
 
 builder.Services.AddControllers();

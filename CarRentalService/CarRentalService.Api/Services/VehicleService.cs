@@ -1,47 +1,50 @@
 ﻿using CarRentalService.Api.Dto;
+using CarRentalService.Domain.Context;
 using CarRentalService.Domain.Entity;
+using Microsoft.EntityFrameworkCore;
 namespace CarRentalService.Api.Services;
 
-public class VehicleService() : IEntityService<VehicleCreateDto, Vehicle>
+public class VehicleService(CarRentalServiceDbContext context) : IEntityService<VehicleCreateDto, Vehicle>
 {
-    private readonly List<Vehicle> _vehicles = [];
-    private int _vehicleId = 1;
+    public async Task<IEnumerable<Vehicle>> GetAll() => await context.Vehicles.ToListAsync();
 
-    public List<Vehicle> GetAll() => _vehicles;
+    public async Task<Vehicle?> GetById(int id) => await context.Vehicles.FirstOrDefaultAsync(c => c.Id == id);
 
-    public Vehicle? GetById(int id) => _vehicles.FirstOrDefault(c => c.Id == id);
-
-    public Vehicle Create(VehicleCreateDto dto)
+    public async Task<Vehicle?> Create(VehicleCreateDto dto)
     {
         var newVehicle = new Vehicle
         {
-            Id = _vehicleId++,
+            Id = 0,
             Model = dto.Model,
             Color = dto.Color,
         };
-        _vehicles.Add(newVehicle);
+        context.Vehicles.Add(newVehicle);
+        await context.SaveChangesAsync();
         return newVehicle;
     }
 
-    public bool Delete(int id)
+    public async Task<bool> Delete(int id)
     {
-        var vehicle = GetById(id);
+        var vehicle =await GetById(id);
         if (vehicle == null)
         {
             return false;
         }
-        return _vehicles.Remove(vehicle);
+        context.Vehicles.Remove(vehicle);
+        await context.SaveChangesAsync();
+        return true;
     }
 
-    public bool Update(int id, VehicleCreateDto updateVehicle)
+    public async Task<bool> Update(int id, VehicleCreateDto updateVehicle)
     {
-        var vehicle = GetById(id);
+        var vehicle =await GetById(id);
         if (vehicle == null)
         {
             return false;
         }
         vehicle.Model = updateVehicle.Model;
         vehicle.Color = updateVehicle.Color;
+        await context.SaveChangesAsync();
         return true;
     }
 }

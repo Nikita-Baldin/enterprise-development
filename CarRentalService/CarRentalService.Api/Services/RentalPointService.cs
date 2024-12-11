@@ -1,47 +1,50 @@
 ﻿using CarRentalService.Api.Dto;
+using CarRentalService.Domain.Context;
 using CarRentalService.Domain.Entity;
+using Microsoft.EntityFrameworkCore;
 namespace CarRentalService.Api.Services;
 
-public class RentalPointService() : IEntityService<RentalPointCreateDto, RentalPoint>
+public class RentalPointService(CarRentalServiceDbContext context) : IEntityService<RentalPointCreateDto, RentalPoint>
 {
-    private readonly List<RentalPoint> _rentalPoints = [];
-    private int _rentalPointId = 1;
+    public async Task<IEnumerable<RentalPoint>> GetAll() => await context.RentalPoints.ToListAsync();
 
-    public List<RentalPoint> GetAll() => _rentalPoints;
+    public async Task<RentalPoint?> GetById(int id) => await context.RentalPoints.FirstOrDefaultAsync(c => c.Id == id);
 
-    public RentalPoint? GetById(int id) => _rentalPoints.FirstOrDefault(c => c.Id == id);
-
-    public RentalPoint Create(RentalPointCreateDto dto)
+    public async Task<RentalPoint?> Create(RentalPointCreateDto dto)
     {
         var newRentalPoint = new RentalPoint
         {
-            Id = _rentalPointId++,
+            Id = 0,
             Name = dto.Name,
             Address = dto.Address,
         };
-        _rentalPoints.Add(newRentalPoint);
+        context.RentalPoints.Add(newRentalPoint);
+        await context.SaveChangesAsync();
         return newRentalPoint;
     }
 
-    public bool Delete(int id)
+    public async Task<bool> Delete(int id)
     {
-        var rentalPoint = GetById(id);
+        var rentalPoint = await GetById(id);
         if (rentalPoint == null)
         {
             return false;
         }
-        return _rentalPoints.Remove(rentalPoint);
+        context.RentalPoints.Remove(rentalPoint);
+        await context.SaveChangesAsync();
+        return true;
     }
 
-    public bool Update(int id, RentalPointCreateDto updateRentalPoint)
+    public async Task<bool> Update(int id, RentalPointCreateDto updateRentalPoint)
     {
-        var rentalPoint = GetById(id);
+        var rentalPoint = await GetById(id);
         if (rentalPoint == null)
         {
             return false;
         }
         rentalPoint.Name = updateRentalPoint.Name;
         rentalPoint.Address = updateRentalPoint.Address;
+        await context.SaveChangesAsync();
         return true;
     }
 }

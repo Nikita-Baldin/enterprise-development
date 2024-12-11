@@ -1,28 +1,26 @@
 ﻿using CarRentalService.Api.Dto;
-using CarRentalService.Domain.Entity; 
+using CarRentalService.Domain.Context;
+using CarRentalService.Domain.Entity;
+using Microsoft.EntityFrameworkCore;
 namespace CarRentalService.Api.Services;
 
 public class RentalRecordService(
    IEntityService<ClientCreateDto, Client> clientService,
    IEntityService<RentalPointCreateDto, RentalPoint> rentalPointService,
-   IEntityService<VehicleCreateDto, Vehicle> vehicleService) : IEntityService<RentalRecordCreateDto, RentalRecord>
+   IEntityService<VehicleCreateDto, Vehicle> vehicleService,
+   CarRentalServiceDbContext context) : IEntityService<RentalRecordCreateDto, RentalRecord>
 {
-    private readonly List<RentalRecord> _rentalRecords = [];
-    private int _rentalRecordId = 1;
+    public async Task<IEnumerable<RentalRecord>> GetAll() => await context.RentalRecords.ToListAsync();
 
+    public async Task<RentalRecord?> GetById(int id) => await context.RentalRecords.FirstOrDefaultAsync(c => c.Id == id);
 
-
-    public List<RentalRecord> GetAll() => _rentalRecords;
-
-    public  RentalRecord? GetById(int id) => _rentalRecords.FirstOrDefault(c => c.Id == id);
-
-    public RentalRecord? Create(RentalRecordCreateDto dto)
+    public async Task<RentalRecord?> Create(RentalRecordCreateDto dto)
     {
 
-        var client = clientService.GetById(dto.ClientId);
-        var rentalPoint = rentalPointService.GetById(dto.RentalPointId);
-        var vehicle = vehicleService.GetById(dto.VehicleId);
-        var returnPoint = rentalPointService.GetById(dto.ReturnPointId ?? 0);
+        var client = await clientService.GetById(dto.ClientId);
+        var rentalPoint = await rentalPointService.GetById(dto.RentalPointId);
+        var vehicle = await vehicleService.GetById(dto.VehicleId);
+        var returnPoint = await rentalPointService.GetById(dto.ReturnPointId ?? 0);
 
         if (client == null || vehicle == null || rentalPoint == null || returnPoint == null)
         {
@@ -30,7 +28,7 @@ public class RentalRecordService(
         }
         var newRentalRecord = new RentalRecord
         {
-            Id = _rentalRecordId++,
+            Id = 0,
             Vehicle = vehicle,
             Client = client,
             RentalPoint = rentalPoint,
@@ -39,27 +37,30 @@ public class RentalRecordService(
             ReturnPoint = returnPoint,
             RentalDurationDays = dto.RentalDurationDays,
         };
-        _rentalRecords.Add(newRentalRecord);
+        context.RentalRecords.Add(newRentalRecord);
+        await context.SaveChangesAsync();
         return newRentalRecord;
     }
 
-    public bool Delete(int id)
+    public async Task<bool> Delete(int id)
     {
-        var rentalRecord = GetById(id);
+        var rentalRecord = await GetById(id);
         if (rentalRecord == null)
         {
             return false;
         }
-        return _rentalRecords.Remove(rentalRecord);
+        context.RentalRecords.Remove(rentalRecord);
+        await context.SaveChangesAsync();
+        return true;
     }
 
-    public bool Update(int id, RentalRecordCreateDto updateRentalRecord)
+    public async Task<bool> Update(int id, RentalRecordCreateDto updateRentalRecord)
     {
-        var rentalRecord = GetById(id);
-        var vehicleId = vehicleService.GetById(updateRentalRecord.VehicleId);
-        var clientId = clientService.GetById(updateRentalRecord.ClientId);
-        var rentalPointId = rentalPointService.GetById(updateRentalRecord.RentalPointId);
-        var returnPoint = rentalPointService.GetById(updateRentalRecord.ReturnPointId ?? 0);
+        var rentalRecord = await GetById(id);
+        var vehicleId = await vehicleService.GetById(updateRentalRecord.VehicleId);
+        var clientId = await clientService.GetById(updateRentalRecord.ClientId);
+        var rentalPointId = await rentalPointService.GetById(updateRentalRecord.RentalPointId);
+        var returnPoint = await rentalPointService.GetById(updateRentalRecord.ReturnPointId ?? 0);
 
         if (rentalRecord == null || vehicleId == null || clientId == null || rentalPointId == null || returnPoint == null)
         {
@@ -72,6 +73,7 @@ public class RentalRecordService(
         rentalRecord.RentalEnd = updateRentalRecord.RentalEnd;
         rentalRecord.ReturnPoint = returnPoint;
         rentalRecord.RentalDurationDays = updateRentalRecord.RentalDurationDays;
+        await context.SaveChangesAsync();
         return true;
     }
 }

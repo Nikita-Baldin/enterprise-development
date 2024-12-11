@@ -1,42 +1,44 @@
 ﻿using CarRentalService.Api.Dto;
+using CarRentalService.Domain.Context;
 using CarRentalService.Domain.Entity;
+using Microsoft.EntityFrameworkCore;
 namespace CarRentalService.Api.Services;
 
-public class ClientService() : IEntityService<ClientCreateDto, Client>
+public class ClientService(CarRentalServiceDbContext context) : IEntityService<ClientCreateDto, Client>
 {
-    private readonly List<Client> _clients = [];
-    private int _clientId = 1;
+    public async Task<IEnumerable<Client>> GetAll() => await context.Clients.ToListAsync();
 
-    public List<Client> GetAll() => _clients;
+    public async Task<Client?> GetById(int id) => await context.Clients.FirstOrDefaultAsync(c => c.Id == id);
 
-    public Client? GetById(int id) => _clients.FirstOrDefault(c => c.Id == id);
-
-    public Client Create(ClientCreateDto dto)
+    public async Task<Client?> Create(ClientCreateDto dto)
     {
         var newClient = new Client
         {
-            Id = _clientId++,
+            Id = 0,
             PassportNumber = dto.PassportNumber,
             FullName = dto.FullName,
             BirthDate = dto.BirthDate
         };
-        _clients.Add(newClient);
+        context.Clients.Add(newClient);
+        await context.SaveChangesAsync();
         return newClient;
     }
 
-    public bool Delete(int id)
+    public async Task<bool> Delete(int id)
     {
-        var client = GetById(id);
+        var client = await GetById(id);
         if (client == null)
         {
             return false;
         }
-        return _clients.Remove(client);
+        context.Clients.Remove(client);
+        await context.SaveChangesAsync();
+        return true;
     }
 
-    public bool Update(int id, ClientCreateDto updateClient)
+    public async Task<bool> Update(int id, ClientCreateDto updateClient)
     {
-        var client = GetById(id);
+        var client = await GetById(id);
         if (client == null)
         {
             return false;
@@ -44,6 +46,7 @@ public class ClientService() : IEntityService<ClientCreateDto, Client>
         client.FullName = updateClient.FullName;
         client.PassportNumber = updateClient.PassportNumber;
         client.BirthDate = updateClient.BirthDate;
+        await context.SaveChangesAsync();
         return true;
     }
 }

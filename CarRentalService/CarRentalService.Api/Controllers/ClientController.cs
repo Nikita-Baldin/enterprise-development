@@ -60,9 +60,9 @@ public class ClientController(IEntityService<ClientCreateDto, Client> clientServ
     /// <response code="200">Данные успешно обновлены</response>
     /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpPut("{id}")]
-    public IActionResult Put(int id, ClientCreateDto client)
+    public async Task<IActionResult> Put(int id, ClientCreateDto client)
     {
-        var result = clientService.Update(id, client);
+        var result = await clientService.Update(id, client);
         if (!result)
         {
             return NotFound();
@@ -78,9 +78,9 @@ public class ClientController(IEntityService<ClientCreateDto, Client> clientServ
     /// <response code="200">Данные успешно обновлены</response>
     /// <response code="404">Данные с указанным идентификатором не найдены</response>
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        var result = clientService.Delete(id);
+        var result = await clientService.Delete(id);
         if (!result)
         {
             return NotFound();
