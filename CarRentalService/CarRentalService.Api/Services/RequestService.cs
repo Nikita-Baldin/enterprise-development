@@ -2,7 +2,11 @@
 using CarRentalService.Domain.Entity;
 namespace CarRentalService.Api.Services;
 
-public class RequestService(VehicleService vehicleService, RentalRecordService recordService, ClientService clientService, RentalPointService pointService)
+public class RequestService(
+    IEntityService<ClientCreateDto, Client> clientService,
+    IEntityService<RentalPointCreateDto, RentalPoint> pointService,
+    IEntityService<VehicleCreateDto, Vehicle> vehicleService,
+    IEntityService<RentalRecordCreateDto, RentalRecord> recordService)
 {
     public IEnumerable<Vehicle> GetAllVehicles()
     {
@@ -90,7 +94,7 @@ public class RequestService(VehicleService vehicleService, RentalRecordService r
                 point => point,
                 (rental, point) => new PointsInfoDto
                 {
-                    PointName =  point.Name,
+                    Point =  point,
                     RentalCount = rental.RentalCount
                 })
             .ToList();

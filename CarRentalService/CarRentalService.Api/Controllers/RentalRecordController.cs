@@ -10,7 +10,7 @@ namespace CarRentalService.Api.Controllers;
 /// </summary>
 [Route("api/[controller]")]
 [ApiController]
-public class RentalRecordController(RentalRecordService rentalRecordService) : ControllerBase
+public class RentalRecordController(IEntityService<RentalRecordCreateDto, RentalRecord> rentalRecordService) : ControllerBase
 {
     /// <summary>
     /// Получить все записи об арендах
@@ -45,10 +45,17 @@ public class RentalRecordController(RentalRecordService rentalRecordService) : C
     /// </summary>
     /// <param name="newRentalRecord">Новая запись</param>
     /// <returns>Добавленная запись</returns>
+    /// <response code="200">Запись добавлена</response>
+    /// <response code="404">Запись не добавлена</response>
     [HttpPost]
     public ActionResult<RentalRecord> Post(RentalRecordCreateDto newRentalRecord)
     {
-        return Ok(rentalRecordService.Create(newRentalRecord));
+        var result = rentalRecordService.Create(newRentalRecord);
+        if (result == null)
+        {
+            return NotFound();
+        }
+        return Ok(result);
     }
 
     /// <summary>

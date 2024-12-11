@@ -1,15 +1,20 @@
 ﻿using CarRentalService.Api.Dto;
-using CarRentalService.Domain.Entity;
+using CarRentalService.Domain.Entity; 
 namespace CarRentalService.Api.Services;
 
-public class RentalRecordService(ClientService clientService, RentalPointService rentalPointService, VehicleService vehicleService) : IEntityService<RentalRecordCreateDto, RentalRecord>
+public class RentalRecordService(
+   IEntityService<ClientCreateDto, Client> clientService,
+   IEntityService<RentalPointCreateDto, RentalPoint> rentalPointService,
+   IEntityService<VehicleCreateDto, Vehicle> vehicleService) : IEntityService<RentalRecordCreateDto, RentalRecord>
 {
     private readonly List<RentalRecord> _rentalRecords = [];
     private int _rentalRecordId = 1;
 
+
+
     public List<RentalRecord> GetAll() => _rentalRecords;
 
-    public RentalRecord? GetById(int id) => _rentalRecords.FirstOrDefault(c => c.Id == id);
+    public  RentalRecord? GetById(int id) => _rentalRecords.FirstOrDefault(c => c.Id == id);
 
     public RentalRecord? Create(RentalRecordCreateDto dto)
     {

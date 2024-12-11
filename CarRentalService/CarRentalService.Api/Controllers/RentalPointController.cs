@@ -10,7 +10,7 @@ namespace CarRentalService.Api.Controllers;
 /// </summary>
 [Route("api/[controller]")]
 [ApiController]
-public class RentalPointController(RentalPointService rentalPointService) : ControllerBase
+public class RentalPointController(IEntityService<RentalPointCreateDto, RentalPoint> rentalPointService) : ControllerBase
 {
     /// <summary>
     /// Получить все пункты проката

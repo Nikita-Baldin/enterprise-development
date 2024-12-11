@@ -13,11 +13,6 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(xmlPath);
 });
 
-builder.Services.AddSingleton<ClientService>();
-builder.Services.AddSingleton<RentalPointService>();
-builder.Services.AddSingleton<VehicleService>();
-builder.Services.AddSingleton<RentalRecordService>();
-
 builder.Services.AddSingleton<IEntityService<ClientCreateDto, Client>, ClientService>();
 builder.Services.AddSingleton<IEntityService<RentalPointCreateDto, RentalPoint>, RentalPointService>();
 builder.Services.AddSingleton<IEntityService<RentalRecordCreateDto, RentalRecord>, RentalRecordService>();

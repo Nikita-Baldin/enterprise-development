@@ -10,7 +10,7 @@ namespace CarRentalService.Api.Controllers;
 /// </summary>
 [Route("api/[controller]")]
 [ApiController]
-public class VehicleController(VehicleService vehicleService) : ControllerBase
+public class VehicleController(IEntityService<VehicleCreateDto, Vehicle> vehicleService) : ControllerBase
 {
     /// <summary>
     /// Получить все автомобили
