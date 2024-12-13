@@ -17,9 +17,9 @@ public class ClientController(IEntityService<ClientCreateDto, Client> clientServ
     /// </summary>
     /// <returns>Список клиентов</returns>
     [HttpGet]
-    public ActionResult<IEnumerable<Client>> Get()
+    public async Task<ActionResult<IEnumerable<Client>>> Get()
     {
-        return Ok(clientService.GetAll());
+        return Ok(await clientService.GetAll());
     }
 
     /// <summary>
@@ -30,9 +30,9 @@ public class ClientController(IEntityService<ClientCreateDto, Client> clientServ
     /// <response code="200">Клиент</response>
     /// <response code="404">Клиент не найден</response>
     [HttpGet("{id}")]
-    public ActionResult<Client> Get(int id) 
+    public async Task<ActionResult<Client>> Get(int id) 
     {
-        var client = clientService.GetById(id);
+        var client = await clientService.GetById(id);
         if (client == null)
         {
             return NotFound();
@@ -46,9 +46,9 @@ public class ClientController(IEntityService<ClientCreateDto, Client> clientServ
     /// <param name="newClient">Новый клиент</param>
     /// <returns>Добавленный клиент</returns>
     [HttpPost]
-    public ActionResult<Client> Post(ClientCreateDto newClient)
+    public async Task<ActionResult<Client>> Post(ClientCreateDto newClient)
     {
-        return Ok(clientService.Create(newClient));
+        return Ok(await clientService.Create(newClient));
     }
 
     /// <summary>

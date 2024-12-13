@@ -5,6 +5,7 @@ namespace CarRentalService.Domain.Entity;
 /// <summary>
 /// класс пункт проката
 /// </summary>
+[Table("rental_point")]
 public class RentalPoint
 {
     /// <summary>

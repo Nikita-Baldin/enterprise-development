@@ -28,7 +28,7 @@ namespace CarRentalService.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RentalPoints",
+                name: "rental_point",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -38,11 +38,11 @@ namespace CarRentalService.Domain.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RentalPoints", x => x.id);
+                    table.PrimaryKey("PK_rental_point", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Vehicles",
+                name: "vehicle",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -52,11 +52,11 @@ namespace CarRentalService.Domain.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vehicles", x => x.id);
+                    table.PrimaryKey("PK_vehicle", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RentalRecords",
+                name: "rental_record",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -71,51 +71,51 @@ namespace CarRentalService.Domain.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RentalRecords", x => x.id);
+                    table.PrimaryKey("PK_rental_record", x => x.id);
                     table.ForeignKey(
-                        name: "FK_RentalRecords_RentalPoints_rental_point",
-                        column: x => x.rental_point,
-                        principalTable: "RentalPoints",
+                        name: "FK_rental_record_client_client",
+                        column: x => x.client,
+                        principalTable: "client",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RentalRecords_RentalPoints_return_point",
+                        name: "FK_rental_record_rental_point_rental_point",
+                        column: x => x.rental_point,
+                        principalTable: "rental_point",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_rental_record_rental_point_return_point",
                         column: x => x.return_point,
-                        principalTable: "RentalPoints",
+                        principalTable: "rental_point",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RentalRecords_Vehicles_vehicle",
+                        name: "FK_rental_record_vehicle_vehicle",
                         column: x => x.vehicle,
-                        principalTable: "Vehicles",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RentalRecords_client_client",
-                        column: x => x.client,
-                        principalTable: "client",
+                        principalTable: "vehicle",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_RentalRecords_client",
-                table: "RentalRecords",
+                name: "IX_rental_record_client",
+                table: "rental_record",
                 column: "client");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RentalRecords_rental_point",
-                table: "RentalRecords",
+                name: "IX_rental_record_rental_point",
+                table: "rental_record",
                 column: "rental_point");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RentalRecords_return_point",
-                table: "RentalRecords",
+                name: "IX_rental_record_return_point",
+                table: "rental_record",
                 column: "return_point");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RentalRecords_vehicle",
-                table: "RentalRecords",
+                name: "IX_rental_record_vehicle",
+                table: "rental_record",
                 column: "vehicle");
         }
 
@@ -123,16 +123,16 @@ namespace CarRentalService.Domain.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "RentalRecords");
-
-            migrationBuilder.DropTable(
-                name: "RentalPoints");
-
-            migrationBuilder.DropTable(
-                name: "Vehicles");
+                name: "rental_record");
 
             migrationBuilder.DropTable(
                 name: "client");
+
+            migrationBuilder.DropTable(
+                name: "rental_point");
+
+            migrationBuilder.DropTable(
+                name: "vehicle");
         }
     }
 }

@@ -6,6 +6,7 @@ namespace CarRentalService.Domain.Entity;
 /// <summary>
 /// класс транспортное средство
 /// </summary>
+[Table("vehicle")]
 public class Vehicle
 {
     /// <summary>

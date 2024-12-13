@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarRentalService.Domain.Migrations
 {
     [DbContext(typeof(CarRentalServiceDbContext))]
-    [Migration("20241211190934_Initial")]
+    [Migration("20241213132940_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -74,7 +74,7 @@ namespace CarRentalService.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RentalPoints");
+                    b.ToTable("rental_point");
                 });
 
             modelBuilder.Entity("CarRentalService.Domain.Entity.RentalRecord", b =>
@@ -121,7 +121,7 @@ namespace CarRentalService.Domain.Migrations
 
                     b.HasIndex("vehicle");
 
-                    b.ToTable("RentalRecords");
+                    b.ToTable("rental_record");
                 });
 
             modelBuilder.Entity("CarRentalService.Domain.Entity.Vehicle", b =>
@@ -145,7 +145,7 @@ namespace CarRentalService.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Vehicles");
+                    b.ToTable("vehicle");
                 });
 
             modelBuilder.Entity("CarRentalService.Domain.Entity.RentalRecord", b =>

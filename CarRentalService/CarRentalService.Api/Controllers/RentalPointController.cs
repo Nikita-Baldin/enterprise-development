@@ -17,9 +17,9 @@ public class RentalPointController(IEntityService<RentalPointCreateDto, RentalPo
     /// </summary>
     /// <returns>Список пунктов проката</returns>
     [HttpGet]
-    public ActionResult<IEnumerable<RentalPoint>> Get()
+    public async Task<ActionResult<IEnumerable<RentalPoint>>> Get()
     {
-        return Ok(rentalPointService.GetAll());
+        return Ok(await rentalPointService.GetAll());
     }
 
     /// <summary>
@@ -30,9 +30,9 @@ public class RentalPointController(IEntityService<RentalPointCreateDto, RentalPo
     /// <response code="200">Пункт проката</response>
     /// <response code="404">Пункт проката не найден</response>
     [HttpGet("{id}")]
-    public ActionResult<RentalPoint> Get(int id)
+    public async Task<ActionResult<RentalPoint>> Get(int id)
     {
-        var rentalPoint = rentalPointService.GetById(id);
+        var rentalPoint = await rentalPointService.GetById(id);
         if (rentalPoint == null)
         {
             return NotFound();
@@ -46,9 +46,9 @@ public class RentalPointController(IEntityService<RentalPointCreateDto, RentalPo
     /// <param name="newRentalPoint">Новый пункт проката</param>
     /// <returns>Добавленный пункт проката</returns>
     [HttpPost]
-    public ActionResult<RentalPoint> Post(RentalPointCreateDto newRentalPoint)
+    public async Task<ActionResult<RentalPoint>> Post(RentalPointCreateDto newRentalPoint)
     {
-        return Ok(rentalPointService.Create(newRentalPoint));
+        return Ok(await rentalPointService.Create(newRentalPoint));
     }
 
     /// <summary>

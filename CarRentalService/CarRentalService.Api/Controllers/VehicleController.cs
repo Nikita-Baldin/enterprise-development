@@ -17,9 +17,9 @@ public class VehicleController(IEntityService<VehicleCreateDto, Vehicle> vehicle
     /// </summary>
     /// <returns>Список автомобилей</returns>
     [HttpGet]
-    public ActionResult<IEnumerable<Vehicle>> Get()
+    public async Task<ActionResult<IEnumerable<Vehicle>>> Get()
     {
-        return Ok(vehicleService.GetAll());
+        return Ok(await vehicleService.GetAll());
     }
 
     /// <summary>
@@ -30,9 +30,9 @@ public class VehicleController(IEntityService<VehicleCreateDto, Vehicle> vehicle
     /// <response code="200">Автомобиль</response>
     /// <response code="404">Автомобиль не найден</response>
     [HttpGet("{id}")]
-    public ActionResult<Vehicle> Get(int id)
+    public async Task<ActionResult<Vehicle>> Get(int id)
     {
-        var vehicle = vehicleService.GetById(id);
+        var vehicle = await vehicleService.GetById(id);
         if (vehicle == null)
         {
             return NotFound();
@@ -46,9 +46,9 @@ public class VehicleController(IEntityService<VehicleCreateDto, Vehicle> vehicle
     /// <param name="newVehicle">Новый автомобиль</param>
     /// <returns>Добавленный автомобиль</returns>
     [HttpPost]
-    public ActionResult<Vehicle> Post(VehicleCreateDto newVehicle)
+    public async Task<ActionResult<Vehicle>> Post(VehicleCreateDto newVehicle)
     {
-        return Ok(vehicleService.Create(newVehicle));
+        return Ok(await vehicleService.Create(newVehicle));
     }
 
     /// <summary>

@@ -17,9 +17,9 @@ public class RentalRecordController(IEntityService<RentalRecordCreateDto, Rental
     /// </summary>
     /// <returns>Записи об арендах автомобилей</returns>
     [HttpGet]
-    public ActionResult<IEnumerable<RentalRecord>> Get()
+    public async Task<ActionResult<IEnumerable<RentalRecord>>> Get()
     {
-        return Ok(rentalRecordService.GetAll());
+        return Ok(await rentalRecordService.GetAll());
     }
 
     /// <summary>
@@ -30,9 +30,9 @@ public class RentalRecordController(IEntityService<RentalRecordCreateDto, Rental
     /// <response code="200">Запись</response>
     /// <response code="404">Запись не найдена</response>
     [HttpGet("{id}")]
-    public ActionResult<RentalRecord> Get(int id)
+    public async Task<ActionResult<RentalRecord>> Get(int id)
     {
-        var rentalRecord = rentalRecordService.GetById(id);
+        var rentalRecord = await rentalRecordService.GetById(id);
         if (rentalRecord == null)
         {
             return NotFound();
@@ -48,9 +48,9 @@ public class RentalRecordController(IEntityService<RentalRecordCreateDto, Rental
     /// <response code="200">Запись добавлена</response>
     /// <response code="404">Запись не добавлена</response>
     [HttpPost]
-    public ActionResult<RentalRecord> Post(RentalRecordCreateDto newRentalRecord)
+    public async Task<ActionResult<RentalRecord>> Post(RentalRecordCreateDto newRentalRecord)
     {
-        var result = rentalRecordService.Create(newRentalRecord);
+        var result = await rentalRecordService.Create(newRentalRecord);
         if (result == null)
         {
             return NotFound();

@@ -18,9 +18,9 @@ public class RequestController(RequestService requestService) : ControllerBase
     /// <returns>Список транспортных средств</returns>
     [HttpGet]
     [Route("return-all-vehicle")]
-    public ActionResult<IEnumerable<Vehicle>> GetAllVehicles()
+    public async Task<ActionResult<IEnumerable<Vehicle>>> GetAllVehicles()
     {
-        return Ok(requestService.GetAllVehicles());
+        return Ok(await requestService.GetAllVehicles());
     }
 
     /// <summary>
@@ -29,9 +29,9 @@ public class RequestController(RequestService requestService) : ControllerBase
     /// <returns>Список клиентов</returns>
     [HttpGet]
     [Route("return-clients-by-car-model")]
-    public ActionResult<IEnumerable<Client>> GetClientsByVehicleModel([FromQuery] string targetModel)
+    public async Task<ActionResult<IEnumerable<Client>>> GetClientsByVehicleModel([FromQuery] string targetModel)
     {
-        return Ok(requestService.GetClientsByVehicleModel(targetModel));
+        return Ok(await requestService.GetClientsByVehicleModel(targetModel));
     }
 
     /// <summary>
@@ -40,9 +40,9 @@ public class RequestController(RequestService requestService) : ControllerBase
     /// <returns>Список автомобилей</returns>
     [HttpGet]
     [Route("return-vehicles-under-lease")]
-    public ActionResult<IEnumerable<Vehicle>> GetVehiclesCurrentlyRented()
+    public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehiclesCurrentlyRented()
     {
-        return Ok(requestService.GetVehiclesCurrentlyRented());
+        return Ok(await requestService.GetVehiclesCurrentlyRented());
     }
 
     /// <summary>
@@ -51,9 +51,9 @@ public class RequestController(RequestService requestService) : ControllerBase
     /// <returns>Список автомобилей</returns>
     [HttpGet]
     [Route("return-top-5-frequently-rented-cars")]
-    public ActionResult<IEnumerable<RecordsInfoDto>> GetTop5MostRentedVehicles()
+    public async Task<ActionResult<IEnumerable<RecordsInfoDto>>> GetTop5MostRentedVehicles()
     {
-        return Ok(requestService.GetTop5MostRentedVehicles());
+        return Ok(await requestService.GetTop5MostRentedVehicles());
     }
 
     /// <summary>
@@ -62,9 +62,9 @@ public class RequestController(RequestService requestService) : ControllerBase
     /// <return>Количество аренд</return>
     [HttpGet]
     [Route("return-rental-count")]
-    public ActionResult<IEnumerable<RecordsInfoDto>> GetRentalCount()
+    public async Task<ActionResult<IEnumerable<RecordsInfoDto>>> GetRentalCount()
     {
-        return Ok(requestService.GetRentalCount());
+        return Ok(await requestService.GetRentalCount());
     }
 
     /// <summary>
@@ -73,8 +73,8 @@ public class RequestController(RequestService requestService) : ControllerBase
     /// <returns>Список пунктов проката</returns>
     [HttpGet]
     [Route("get-rental-points-with-max-rentals")]
-    public ActionResult<IEnumerable<PointsInfoDto>> GetRentalPointsWithMaxRentals()
+    public async Task<ActionResult<IEnumerable<PointsInfoDto>>> GetRentalPointsWithMaxRentals()
     {
-        return Ok(requestService.GetRentalPointsWithMaxRentals());
+        return Ok(await requestService.GetRentalPointsWithMaxRentals());
     }
 }
