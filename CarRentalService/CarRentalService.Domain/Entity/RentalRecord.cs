@@ -41,13 +41,11 @@ public class RentalRecord
     /// время окончания аренды
     /// </summary>
     [Column("rental_end")]
-    [Required]
     public DateTime? RentalEnd { get; set; }
     /// <summary>
     /// ID пункта возврата
     /// </summary>
     [Column("return_point")]
-    [Required]
     public RentalPoint? ReturnPoint { get; set; }
     /// <summary>
     /// срок аренды в днях

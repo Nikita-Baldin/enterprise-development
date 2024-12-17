@@ -10,9 +10,9 @@ public class RentalRecordService(
    IEntityService<VehicleCreateDto, Vehicle> vehicleService,
    CarRentalServiceDbContext context) : IEntityService<RentalRecordCreateDto, RentalRecord>
 {
-    public async Task<IEnumerable<RentalRecord>> GetAll() => await context.RentalRecords.ToListAsync();
+    public async Task<IEnumerable<RentalRecord>> GetAll() => await context.RentalRecords.Include(r => r.Client).Include(r => r.Vehicle).Include(r => r.RentalPoint).ToListAsync();
 
-    public async Task<RentalRecord?> GetById(int id) => await context.RentalRecords.FirstOrDefaultAsync(c => c.Id == id);
+    public async Task<RentalRecord?> GetById(int id) => await context.RentalRecords.Include(r => r.Client).Include(r => r.Vehicle).Include(r => r.RentalPoint).FirstOrDefaultAsync(c => c.Id == id);
 
     public async Task<RentalRecord?> Create(RentalRecordCreateDto dto)
     {

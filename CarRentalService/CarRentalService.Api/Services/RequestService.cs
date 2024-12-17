@@ -23,8 +23,8 @@ public class RequestService(
         var clients = await clientService.GetAll();
         var records = await recordService.GetAll();
         return records
-            .Where(record => vehicles.Any(vehicle => vehicle.Id == record.Vehicle.Id && vehicle.Model == targetModel))
-            .Select(record => clients.First(client => client.Id == record.Client.Id))
+            .Where(record => record.Vehicle.Model == targetModel)
+            .Select(record => record.Client)
             .OrderBy(client => client.FullName)
             .Distinct()
             .ToList();
@@ -36,7 +36,7 @@ public class RequestService(
         var vehicles = await vehicleService.GetAll();
         return records
             .Where(record => record.RentalEnd == null)
-            .Select(record => vehicles.First(vehicle => vehicle.Id == record.Vehicle.Id))
+            .Select(record => record.Vehicle)
             .Distinct()
             .ToList();
     }
